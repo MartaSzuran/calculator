@@ -24,12 +24,12 @@ document.querySelector("#app").innerHTML = `
     <button type='button' id='plus'>+</button>
 
     <button type='button' id='numb0' value='0'>0</button>
-    <button type='button' id='floating' value=','>,</button>
+    <button type='button' id='floating' value='.'>.</button>
     <button type='button' id='equal'>=</button>
   </div>
 `;
 
-let calculateNumber = "";
+let solution = 0;
 let listOfOperations = [];
 let solutionDiv = document.getElementById("solution");
 
@@ -38,10 +38,32 @@ let numberInString = "";
 
 calculator.addEventListener("click", (event) => checkEventType(event));
 
+if (solution === 0) {
+  renderNumbers(solution);
+}
+
 function checkEventType(ev) {
   if (ev.target.id === "clear") {
-    solutionDiv.innerHTML = "";
     clear();
+    return;
+  }
+
+  if (ev.target.id === "pos-neg") {
+    let arrOfNumb = numberInString.split("");
+    if (!numberInString) {
+      return;
+    }
+    if (arrOfNumb[0] === "-") {
+      arrOfNumb.shift();
+      arrOfNumb = arrOfNumb.join("");
+      numberInString = arrOfNumb.toString();
+      renderNumbers(numberInString);
+      return;
+    }
+    arrOfNumb.unshift("-");
+    arrOfNumb = arrOfNumb.join("");
+    numberInString = arrOfNumb.toString();
+    renderNumbers(numberInString);
   }
 
   if (ev.target.id.includes("numb") || ev.target.id === "floating") {
@@ -60,20 +82,42 @@ function checkEventType(ev) {
   }
 
   if (ev.target.id === "plus") {
-    if (!calculateNumber) {
-      listOfOperations.push("+");
-      calculateNumber = Number(numberInString);
-      renderNumbers(calculateNumber);
-      clear();
-      return;
-    }
+    listOfOperations.push("+");
     sumNumbers();
+  }
+
+  if (ev.target.id === "minus") {
+    listOfOperations.push("-");
+    subtractionNumbers();
+  }
+
+  if (ev.target.id === "multiply") {
+    listOfOperations.push("x");
+    multiplyNumbers();
+  }
+
+  if (ev.target.id === "division") {
+    listOfOperations.push("/");
+    divideNumbers();
   }
 
   if (ev.target.id === "equal") {
     if (listOfOperations) {
       if (listOfOperations.at(-1) === "+") {
+        listOfOperations = [];
         sumNumbers();
+      }
+      if (listOfOperations.at(-1) === "-") {
+        listOfOperations = [];
+        subtractionNumbers();
+      }
+      if (listOfOperations.at(-1) === "x") {
+        listOfOperations = [];
+        multiplyNumbers();
+      }
+      if (listOfOperations.at(-1) === "/") {
+        listOfOperations = [];
+        divideNumbers();
       }
     }
   }
@@ -85,12 +129,122 @@ function renderNumbers(numbStr) {
 
 function clear() {
   numberInString = "";
+  listOfOperations = [];
+  solution = 0;
+  renderNumbers(solution);
 }
 
 function sumNumbers() {
-  calculateNumber += Number(numberInString);
-  renderNumbers(calculateNumber);
-  listOfOperations.push("+");
-  clear();
-  return;
+  if (!numberInString) {
+    renderNumbers(solution);
+    return;
+  }
+
+  if (listOfOperations.at(-2)) {
+    listOfOperations.shift();
+    chooseOperation(listOfOperations.at(-2));
+  }
+
+  if (numberInString) {
+    if (!solution) {
+      solution = Number(Number.parseFloat(numberInString));
+      renderNumbers(solution);
+      numberInString = "";
+      return;
+    }
+    solution += Number(Number.parseFloat(numberInString));
+    renderNumbers(solution);
+    numberInString = "";
+    return;
+  }
+}
+
+function subtractionNumbers() {
+  if (!numberInString) {
+    renderNumbers(solution);
+    return;
+  }
+
+  if (listOfOperations.at(-2)) {
+    listOfOperations.shift();
+    chooseOperation(listOfOperations.at(-2));
+  }
+
+  if (numberInString) {
+    if (!solution) {
+      solution = Number(Number.parseFloat(numberInString));
+      renderNumbers(solution);
+      numberInString = "";
+      return;
+    }
+
+    solution -= Number(Number.parseFloat(numberInString));
+    renderNumbers(solution);
+    numberInString = "";
+  }
+}
+
+function multiplyNumbers() {
+  if (!numberInString) {
+    renderNumbers(solution);
+    return;
+  }
+
+  if (listOfOperations.at(-2)) {
+    listOfOperations.shift();
+    chooseOperation(listOfOperations.at(-2));
+  }
+
+  if (numberInString) {
+    if (!solution) {
+      solution = Number(Number.parseFloat(numberInString));
+      renderNumbers(solution);
+      numberInString = "";
+      return;
+    }
+
+    solution *= Number(Number.parseFloat(numberInString));
+    renderNumbers(solution);
+    numberInString = "";
+  }
+}
+
+function divideNumbers() {
+  if (!numberInString) {
+    renderNumbers(solution);
+    return;
+  }
+
+  if (listOfOperations.at(-2)) {
+    listOfOperations.shift();
+    chooseOperation(listOfOperations.at(-2));
+  }
+
+  if (numberInString) {
+    if (!solution) {
+      solution = Number(Number.parseFloat(numberInString));
+      renderNumbers(solution);
+      numberInString = "";
+      return;
+    }
+
+    solution = solution / Number(Number.parseFloat(numberInString));
+    renderNumbers(solution);
+    numberInString = "";
+  }
+}
+
+function chooseOperation(previousOperation) {
+  if (previousOperation === "+") {
+    sumNumbers();
+  }
+  if (previousOperation === "+") {
+    subtractionNumbers();
+  }
+  if (previousOperation === "+") {
+    multiplyNumbers();
+  }
+  if (previousOperation === "+") {
+    divideNumbers();
+  }
 }

@@ -265,6 +265,7 @@ function divideNumbers() {
     if (numberInString === "0") {
       renderNumbers("error");
       numberInString = "";
+      solution = 0;
       return;
     }
     solution = solution / Number(Number.parseFloat(numberInString));

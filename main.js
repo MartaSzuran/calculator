@@ -50,9 +50,11 @@ function checkEventType(ev) {
 
   if (ev.target.id === "pos-neg") {
     let arrOfNumb = numberInString.split("");
+
     if (!numberInString) {
       return;
     }
+
     if (arrOfNumb[0] === "-") {
       arrOfNumb.shift();
       arrOfNumb = arrOfNumb.join("");
@@ -66,12 +68,23 @@ function checkEventType(ev) {
     renderNumbers(numberInString);
   }
 
+  if (ev.target.id === "percent") {
+    if (!numberInString) {
+      return;
+    }
+
+    let numberToPercent = Number(numberInString) / 100;
+    numberInString = numberToPercent.toString();
+    renderNumbers(numberInString);
+  }
+
   if (ev.target.id.includes("numb") || ev.target.id === "floating") {
     if (!numberInString) {
       numberInString = ev.target.value;
       renderNumbers(numberInString);
       return;
     }
+
     if (numberInString.includes(",")) {
       if (ev.target.id === "floating") {
         return;

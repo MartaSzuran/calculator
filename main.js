@@ -238,13 +238,13 @@ function chooseOperation(previousOperation) {
   if (previousOperation === "+") {
     sumNumbers();
   }
-  if (previousOperation === "+") {
+  if (previousOperation === "-") {
     subtractionNumbers();
   }
-  if (previousOperation === "+") {
+  if (previousOperation === "x") {
     multiplyNumbers();
   }
-  if (previousOperation === "+") {
+  if (previousOperation === "/") {
     divideNumbers();
   }
 }

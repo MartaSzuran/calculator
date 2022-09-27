@@ -23,13 +23,14 @@ document.querySelector("#app").innerHTML = `
     <button type='button' id='numb3' value='3'>3</button>
     <button type='button' id='plus'>+</button>
 
-    <button type='button' id='numb0'>0</button>
-    <button type='button' id='floating'>,</button>
+    <button type='button' id='numb0' value='0'>0</button>
+    <button type='button' id='floating' value=','>,</button>
     <button type='button' id='equal'>=</button>
   </div>
 `;
 
-let listOfNumbersForCalculation = [];
+let calculateNumber = "";
+let listOfOperations = [];
 let solutionDiv = document.getElementById("solution");
 
 const calculator = document.getElementById("calculator");
@@ -39,17 +40,42 @@ calculator.addEventListener("click", (event) => checkEventType(event));
 
 function checkEventType(ev) {
   if (ev.target.id === "clear") {
+    solutionDiv.innerHTML = "";
     clear();
   }
 
-  if (ev.target.id.includes("numb")) {
+  if (ev.target.id.includes("numb") || ev.target.id === "floating") {
     if (!numberInString) {
       numberInString = ev.target.value;
       renderNumbers(numberInString);
       return;
     }
+    if (numberInString.includes(",")) {
+      if (ev.target.id === "floating") {
+        return;
+      }
+    }
     numberInString += ev.target.value;
     renderNumbers(numberInString);
+  }
+
+  if (ev.target.id === "plus") {
+    if (!calculateNumber) {
+      listOfOperations.push("+");
+      calculateNumber = Number(numberInString);
+      renderNumbers(calculateNumber);
+      clear();
+      return;
+    }
+    sumNumbers();
+  }
+
+  if (ev.target.id === "equal") {
+    if (listOfOperations) {
+      if (listOfOperations.at(-1) === "+") {
+        sumNumbers();
+      }
+    }
   }
 }
 
@@ -59,5 +85,12 @@ function renderNumbers(numbStr) {
 
 function clear() {
   numberInString = "";
-  solutionDiv.innerHTML = "";
+}
+
+function sumNumbers() {
+  calculateNumber += Number(numberInString);
+  renderNumbers(calculateNumber);
+  listOfOperations.push("+");
+  clear();
+  return;
 }

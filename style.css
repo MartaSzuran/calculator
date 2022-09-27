@@ -26,10 +26,12 @@ body {
   width: 488px;
   height: 100px;
   margin: 4px;
+  padding: 4px;
   font-size: 60px;
   border-radius: 5px;
   border-style: double;
   border-color: rgb(206, 94, 94);
+  text-align: right;
 }
 
 button {

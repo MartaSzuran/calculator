@@ -141,7 +141,6 @@ function sumNumbers() {
   }
 
   if (listOfOperations.at(-2)) {
-    listOfOperations.shift();
     chooseOperation(listOfOperations.at(-2));
   }
 
@@ -166,7 +165,6 @@ function subtractionNumbers() {
   }
 
   if (listOfOperations.at(-2)) {
-    listOfOperations.shift();
     chooseOperation(listOfOperations.at(-2));
   }
 
@@ -191,7 +189,6 @@ function multiplyNumbers() {
   }
 
   if (listOfOperations.at(-2)) {
-    listOfOperations.shift();
     chooseOperation(listOfOperations.at(-2));
   }
 
@@ -216,7 +213,6 @@ function divideNumbers() {
   }
 
   if (listOfOperations.at(-2)) {
-    listOfOperations.shift();
     chooseOperation(listOfOperations.at(-2));
   }
 
@@ -235,16 +231,26 @@ function divideNumbers() {
 }
 
 function chooseOperation(previousOperation) {
+  debugger;
+  console.log(previousOperation);
   if (previousOperation === "+") {
+    listOfOperations.shift();
     sumNumbers();
+    return;
   }
   if (previousOperation === "-") {
+    listOfOperations.shift();
     subtractionNumbers();
+    return;
   }
   if (previousOperation === "x") {
+    listOfOperations.shift();
     multiplyNumbers();
+    return;
   }
   if (previousOperation === "/") {
+    listOfOperations.shift();
     divideNumbers();
+    return;
   }
 }

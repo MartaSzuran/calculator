@@ -25,6 +25,7 @@ document.querySelector("#app").innerHTML = `
 
     <button type='button' id='numb0' value='0'>0</button>
     <button type='button' id='floating' value='.'>.</button>
+    <button type='button' id='equal'>=</button>
   </div>
 `;
 

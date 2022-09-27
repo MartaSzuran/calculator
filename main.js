@@ -137,7 +137,25 @@ function checkEventType(ev) {
 }
 
 function renderNumbers(numbStr) {
+  let validateNumberInString = numberStringValidation(numbStr);
+  if (validateNumberInString) {
+    solutionDiv.innerHTML = `${validateNumberInString}`;
+    return;
+  }
   solutionDiv.innerHTML = `${numbStr}`;
+}
+
+function numberStringValidation(numbToCheck) {
+  let checkStr = numbToCheck.toString();
+  checkStr = checkStr.split("");
+  let strLen = checkStr.length;
+  if (strLen >= 14) {
+    let indexOfFlotingPoint = checkStr.indexOf(".");
+    let newNumbInStr = Number(checkStr.join(""));
+    newNumbInStr = newNumbInStr.toFixed(13 - indexOfFlotingPoint);
+    return newNumbInStr;
+  }
+  return;
 }
 
 function clear() {
@@ -244,8 +262,6 @@ function divideNumbers() {
 }
 
 function chooseOperation(previousOperation) {
-  debugger;
-  console.log(previousOperation);
   if (previousOperation === "+") {
     listOfOperations.shift();
     sumNumbers();

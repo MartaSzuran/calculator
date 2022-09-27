@@ -144,6 +144,11 @@ function checkEventType(ev) {
 }
 
 function renderNumbers(numbStr) {
+  if (numbStr === "error") {
+    solutionDiv.innerHTML = "error";
+    solution = 0;
+    return;
+  }
   let validateNumberInString = numberStringValidation(numbStr);
   if (validateNumberInString) {
     solutionDiv.innerHTML = `${validateNumberInString}`;
@@ -265,7 +270,6 @@ function divideNumbers() {
     if (numberInString === "0") {
       renderNumbers("error");
       numberInString = "";
-      solution = 0;
       return;
     }
     solution = solution / Number(Number.parseFloat(numberInString));

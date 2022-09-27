@@ -25,7 +25,6 @@ document.querySelector("#app").innerHTML = `
 
     <button type='button' id='numb0' value='0'>0</button>
     <button type='button' id='floating' value='.'>.</button>
-    <button type='button' id='equal'>=</button>
   </div>
 `;
 
@@ -69,7 +68,14 @@ function checkEventType(ev) {
   }
 
   if (ev.target.id === "percent") {
-    if (!numberInString) {
+    if (!numberInString && !solution) {
+      return;
+    }
+
+    if (solution) {
+      let numberToPercent = Number(solution) / 100;
+      solution = numberToPercent.toString();
+      renderNumbers(solution);
       return;
     }
 
@@ -152,7 +158,7 @@ function numberStringValidation(numbToCheck) {
   if (strLen >= 14) {
     let indexOfFlotingPoint = checkStr.indexOf(".");
     let newNumbInStr = Number(checkStr.join(""));
-    newNumbInStr = newNumbInStr.toFixed(13 - indexOfFlotingPoint);
+    newNumbInStr = Number(newNumbInStr.toFixed(13 - indexOfFlotingPoint));
     return newNumbInStr;
   }
   return;
@@ -255,6 +261,11 @@ function divideNumbers() {
       return;
     }
 
+    if (numberInString === "0") {
+      renderNumbers("error");
+      numberInString = "";
+      return;
+    }
     solution = solution / Number(Number.parseFloat(numberInString));
     renderNumbers(solution);
     numberInString = "";

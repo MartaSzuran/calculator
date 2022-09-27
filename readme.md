@@ -1,7 +1,7 @@
 # Calculator
 
 ![calculator screenshot](./calculator.png)
-[Live](https://resplendent-kitsune-ed844d.netlify.app)
+[Live](https://calculator-vanilla-js-marta-szuran.netlify.app/)
 
 ## Technologies
 
